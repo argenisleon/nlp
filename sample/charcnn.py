@@ -1,3 +1,13 @@
+import IPython
+import numpy as np
+from IPython.core.display import SVG
+from keras import Model, Input
+from keras.layers import Dropout, Dense, Bidirectional, TimeDistributed, LSTM, Embedding, concatenate, GlobalMaxPool1D, \
+    MaxPooling1D, Conv1D
+from keras.utils.vis_utils import model_to_dot
+from nltk import sent_tokenize
+
+
 class CharCNN:
     __author__ = "Edward Ma"
     __copyright__ = "Copyright 2018, Edward Ma"
