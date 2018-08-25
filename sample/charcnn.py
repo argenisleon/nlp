@@ -7,7 +7,7 @@ class CharCNN:
     __maintainer__ = "Edward Ma"
     __email__ = "makcedward@gmail.com"
 
-    CHAR_DICT = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .!?:,\'%-\(\)/$|&;[]"'
+    CHAR_SET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .!?:,\'%-\(\)/$|&;[]"'
 
     def __init__(self, max_len_of_sentence, max_num_of_setnence, verbose=10):
         self.max_len_of_sentence = max_len_of_sentence
@@ -18,25 +18,32 @@ class CharCNN:
         self.num_of_label = 0
         self.unknown_label = ''
 
-    def build_char_dictionary(self, char_dict=None, unknown_label='UNK'):
-        """
-            Define possbile char set. Using "UNK" if character does not exist in this set
+    def preprocess(self, labels, char_dict=None, unknown_label='UNK'):
+        if self.verbose > 3:
+            print('-----> Stage: preprocess')
+        if self.verbose > 5:
+            print("5")
+            print(labels)
+
+        self.build_char_dictionary(char_dict, unknown_label)
+        self.convert_labels(labels)
+
+    def build_char_dictionary(self, char_set=None, unknown_label='UNK'):
         """
 
-        if char_dict is None:
-            char_dict = self.CHAR_DICT
+        :param char_set: Define possible char set.
+        :param unknown_label: Using "UNK" if character does not exist in this set
+        :return:
+        """
+
+        if char_set is None:
+            char_set = self.CHAR_SET
 
         self.unknown_label = unknown_label
+        # Remove duplicated and convert to list
+        chars = list(set(char_set))
 
-        chars = []
-
-        for c in char_dict:
-            chars.append(c)
-
-        print(char_dict)
-
-        chars = list(set(chars))
-
+        # Insert this unknown_label if character does not exist
         chars.insert(0, unknown_label)
 
         self.num_of_char = len(chars)
