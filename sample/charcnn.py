@@ -208,8 +208,6 @@ class CharCNN:
         if self.verbose > 3:
             print('-----> Stage: process')
 
-        if sample_size is None:
-            sample_size = 1000
         if label2indexes is None:
             if self.label2indexes is None:
                 raise Exception('Does not initalize label2indexes. Please invoke preprocess step first')
