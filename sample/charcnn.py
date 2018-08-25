@@ -158,7 +158,7 @@ class CharCNN:
     def _build_sentence_block(self, max_len_of_sentence, max_num_of_setnence,
                               char_dimension=16,
                               filters=[[3, 5, 7], [200, 300, 300], [300, 400, 400]],
-                              #                               filters=[[100, 200, 200], [200, 300, 300], [300, 400, 400]],
+                              # filters=[[100, 200, 200], [200, 300, 300], [300, 400, 400]],
                               kernel_sizes=[[4, 3, 3], [5, 3, 3], [6, 3, 3]],
                               pool_sizes=[[2, 2, 2], [2, 2, 2], [2, 2, 2]],
                               dropout=0.4):
@@ -196,21 +196,26 @@ class CharCNN:
         doc_encoder.compile(loss=loss, optimizer=optimizer, metrics=metrics)
         return doc_encoder
 
-    def preprocess(self, labels, char_dict=None, unknown_label='UNK'):
-        if self.verbose > 3:
-            print('-----> Stage: preprocess')
-
-        self.build_char_dictionary(char_dict, unknown_label)
-        self.convert_labels(labels)
-
     def process(self, df, x_col, y_col,
-                max_len_of_sentence=None, max_num_of_setnence=None, label2indexes=None, sample_size=None):
+                max_len_of_sentence=None,
+                max_num_of_setnence=None, label2indexes=None, sample_size=None):
+        """
+
+        :param df:
+        :param x_col:
+        :param y_col:
+        :param max_len_of_sentence:
+        :param max_num_of_setnence:
+        :param label2indexes:
+        :param sample_size:
+        :return:
+        """
         if self.verbose > 3:
             print('-----> Stage: process')
 
         if label2indexes is None:
             if self.label2indexes is None:
-                raise Exception('Does not initalize label2indexes. Please invoke preprocess step first')
+                raise Exception('Does not initialize label2indexes. Please invoke pre-process step first')
             label2indexes = self.label2indexes
         if max_len_of_sentence is None:
             max_len_of_sentence = self.max_len_of_sentence
